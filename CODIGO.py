@@ -90,7 +90,7 @@ def generar_pdf_respuesta(row):
     return pdf
 
 # === INTERFAZ STREAMLIT ===
-image = Image.open("logo claro.png")
+image = Image.open("IMAGEN_SIN_FONDO.png")
 st.image(image, width=500)
 
 st.title("Generador de Reporte de Actividades INIFAR 🧾")
