@@ -21,7 +21,7 @@ class PDF(FPDF):
 def cargar_respuestas():
     # 👇 Reemplaza este ID con el ID de tu hoja de respuestas de Google Forms
     sheet_id = "1222LBCTgivujNTB8YL17QrJXDH6eRqUKCZG8UKrskbc"
-    url = https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
+    url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
     df = pd.read_csv(url)
     return df
 
