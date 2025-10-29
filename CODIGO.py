@@ -93,7 +93,7 @@ def generar_pdf_respuesta(row):
 image = Image.open("IMAGEN_SIN_FONDO.png")
 st.image(image, width=500)
 
-st.title("Generador de Reporte de Actividades INIFAR 🧾")
+st.title("Registro de labores INIFAR 🧾")
 
 df = cargar_respuestas()
 st.write("Total de respuestas cargadas:", len(df))
