@@ -99,8 +99,8 @@ df = cargar_respuestas()
 st.write("Total de respuestas cargadas:", len(df))
 
 # Selección de registro por nombre o correo
-opciones = sorted(df["Nombre completo"].dropna().unique())
-nombre_sel = st.selectbox("Selecciona una persona:", opciones)
+opciones = sorted(df["Nombre del asistente"].dropna().unique())
+nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
 if st.button("Generar PDF"):
     fila = df[df["Nombre completo"] == nombre_sel].iloc[0]
