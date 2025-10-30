@@ -19,12 +19,17 @@ class PDF(FPDF):
 
 # === CARGAR DATOS DESDE GOOGLE SHEETS ===
 def cargar_respuestas():
-    # 👇 Reemplaza este ID con el ID de tu hoja de respuestas de Google Forms
-    sheet_id = "1222LBCTgivujNTB8YL17QrJXDH6eRqUKCZG8UKrskbc"
-    url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
-    df = pd.read_csv(url)
-    return df
+    sheet_id_respuestas = "1222LBCTgivujNTB8YL17QrJXDH6eRqUKCZG8UKrskbc"
+    url_respuestas = f"https://docs.google.com/spreadsheets/d/{sheet_id_respuestas}/export?format=csv"
+    df_respuestas = pd.read_csv(url)
+    return df_respuestas
 
+# === CARGAR NOMBRES Y CONTRASEÑAS === #
+def cargar_respuestas():
+    sheet_id_personas = "1oQ6I-GV56ubn4MLlrRGC91tFCR7YE2uyHdOm5Rc4lFE"
+    url_personas = f"https://docs.google.com/spreadsheets/d/{sheet_id_personas}/export?format=csv"
+    df_personas = pd.read_csv(url)
+    return df_personas
 # === FUNCIÓN PARA CREAR EL PDF DE UNA RESPUESTA ===
 def generar_pdf_respuesta(row):
     pdf = PDF()
@@ -99,7 +104,7 @@ df = cargar_respuestas()
 st.write("Total de respuestas cargadas:", len(df))
 
 # Selección de registro por nombre o correo
-opciones = sorted(df["Nombre del asistente"].dropna().unique())
+opciones = sorted(df["Nombre"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
 if st.button("Generar PDF"):
