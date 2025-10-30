@@ -107,6 +107,10 @@ st.write("Total de respuestas cargadas:", len(df))
 opciones = sorted(df["Nombre"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
+#Selección de actividad
+actividades = sorted(df["Tipo de actividad"].dropna().unique())
+nombre_sel = st.selectbox("Selecciona una actividad:", actividades)
+
 if st.button("Generar PDF"):
     fila = df[df["Nombre completo"] == nombre_sel].iloc[0]
     pdf = generar_pdf_respuesta(fila)
