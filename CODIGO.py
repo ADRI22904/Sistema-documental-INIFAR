@@ -21,14 +21,14 @@ class PDF(FPDF):
 def cargar_respuestas():
     sheet_id_respuestas = "1222LBCTgivujNTB8YL17QrJXDH6eRqUKCZG8UKrskbc"
     url_respuestas = f"https://docs.google.com/spreadsheets/d/{sheet_id_respuestas}/export?format=csv"
-    df_respuestas = pd.read_csv(url)
+    df_respuestas = pd.read_csv(url_respuestas)
     return df_respuestas
 
 # === CARGAR NOMBRES Y CONTRASEÑAS === #
-def cargar_respuestas():
+def cargar_personas():
     sheet_id_personas = "1oQ6I-GV56ubn4MLlrRGC91tFCR7YE2uyHdOm5Rc4lFE"
     url_personas = f"https://docs.google.com/spreadsheets/d/{sheet_id_personas}/export?format=csv"
-    df_personas = pd.read_csv(url)
+    df_personas = pd.read_csv(url_personas)
     return df_personas
 # === FUNCIÓN PARA CREAR EL PDF DE UNA RESPUESTA ===
 def generar_pdf_respuesta(row):
