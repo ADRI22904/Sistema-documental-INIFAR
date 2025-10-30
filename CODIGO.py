@@ -100,7 +100,7 @@ st.image(image, width=500)
 
 st.title("Registro de labores INIFAR 🧾")
 
-df = cargar_respuestas()
+df = cargar_personas()
 st.write("Total de respuestas cargadas:", len(df))
 
 # Selección de registro por nombre o correo
