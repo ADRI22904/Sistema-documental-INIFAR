@@ -59,7 +59,7 @@ df_respuestas = cargar_respuestas()
 st.write("Total de respuestas cargadas:", len(df_respuestas))
 
 # Selección de asistente
-opciones = sorted(df["Nombre del asistente"].dropna().unique())
+opciones = sorted(df_respuestas["Nombre del asistente"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
 # (Se deja la selección de actividad aunque ya no se use)
