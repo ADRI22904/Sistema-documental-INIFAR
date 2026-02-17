@@ -66,7 +66,7 @@ nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
 # Selección de unidad o proyecto (desde Google Forms)
 unidades = sorted(
-    df["Indique el proyecto o unidad para el cuál realizó la tarea"].dropna().unique()
+    df_respuestas["Indique el proyecto o unidad para el cuál realizó la tarea"].dropna().unique()
 )
 unidad_sel = st.selectbox("Selecciona la unidad o proyecto:", unidades)
 
