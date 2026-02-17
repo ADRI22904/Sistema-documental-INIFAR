@@ -43,31 +43,30 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"Periodo de nombramiento: {row.get('Periodo de nombramiento', '')}", ln=True)
     pdf.cell(0, 10, f"Cantidad de horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
     pdf.cell(0, 10, f"Fecha de realización: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
-    pdf.cell(0, 10, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}", ln=True)
-    
+
+    proyecto_unidad = row.get("Indique el proyecto o unidad para el cuál realizó la tarea.", "")
     pdf.cell(0, 10, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
 
-# Normalizamos para comparar
-proyecto_norm = str(proyecto_unidad).strip().lower()
+    # Normalizamos para comparar
+    proyecto_norm = str(proyecto_unidad).strip().lower()
 
-# === CASO ARPYMES ===
-if proyecto_norm == "arpymes":
-    respuesta_empresa = row.get("¿La empresa es propia de ARPYMES o externa?", "")
-    pdf.cell(0, 10, f"¿La empresa es propia de ARPYMES o externa?: {respuesta_empresa}", ln=True)
+    # === CASO ARPYMES ===
+    if proyecto_norm == "arpymes":
+        respuesta_empresa = row.get("¿La empresa es propia de ARPYMES o externa?", "")
+        pdf.cell(0, 10, f"¿La empresa es propia de ARPYMES o externa?: {respuesta_empresa}", ln=True)
 
-    if str(respuesta_empresa).strip().lower() == "externa":
-        nombre_empresa = row.get("En caso de ser externa coloque el nombre de la empresa", "")
-        pdf.cell(0, 10, f"Nombre de la empresa: {nombre_empresa}", ln=True)
-        
-# === CASO OTROS PROYECTOS / UNIDADES ===
-else:
-    respuesta_inifar_empresa = row.get("¿La actividad es propia del INIFAR o para algún tipo de empresa?", "")
-    pdf.cell(0, 10, f"¿La actividad es propia del INIFAR o para algún tipo de empresa?: {respuesta_inifar_empresa}", ln=True)
+        if str(respuesta_empresa).strip().lower() == "externa":
+            nombre_empresa = row.get("En caso de ser externa coloque el nombre de la empresa", "")
+            pdf.cell(0, 10, f"Nombre de la empresa: {nombre_empresa}", ln=True)
 
-    if str(respuesta_inifar_empresa).strip().lower() == "empresa":
-        nombre_empresa_otro = row.get("En caso de ser para alguna empresa coloque el nombre de esta", "")
-        pdf.cell(0, 10, f"Nombre de la empresa: {nombre_empresa_otro}", ln=True)
-    
+    # === CASO OTROS PROYECTOS / UNIDADES ===
+    else:
+        respuesta_inifar_empresa = row.get("¿La actividad es propia del INIFAR o para algún tipo de empresa?", "")
+        pdf.cell(0, 10, f"¿La actividad es propia del INIFAR o para algún tipo de empresa?: {respuesta_inifar_empresa}", ln=True)
+
+        if str(respuesta_inifar_empresa).strip().lower() == "empresa":
+            nombre_empresa_otro = row.get("En caso de ser para alguna empresa coloque el nombre de esta", "")
+            pdf.cell(0, 10, f"Nombre de la empresa: {nombre_empresa_otro}", ln=True)
 
     return pdf
 
@@ -87,9 +86,6 @@ df_respuestas.columns = df_respuestas.columns.str.strip()
 # Selección de asistente
 opciones = sorted(df_respuestas["Nombre del asistente"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
-
-
-
 
 # Selección de actividad (por ahora no filtra; luego lo conectamos)
 actividades = sorted(df["Tipo de actividad"].dropna().unique())
