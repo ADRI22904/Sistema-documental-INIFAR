@@ -45,6 +45,15 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"Fecha de realización: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
     pdf.cell(0, 10, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}", ln=True)
     
+    respuesta_empresa = row.get("¿La empresa es propia de ARPYMES o externa?", "")
+
+    pdf.cell(0, 10, f"¿La empresa es propia de ARPYMES o externa?: {respuesta_empresa}", ln=True)
+
+    # Si es externa, mostrar el nombre de la empresa en la siguiente línea
+    if str(respuesta_empresa).strip().lower() == "Externa":
+        nombre_empresa = row.get("En caso de ser externa coloque el nombre de la empresa", "")
+        pdf.cell(0, 10, f"Nombre de la empresa: {nombre_empresa}", ln=True)
+    
 
     return pdf
 
