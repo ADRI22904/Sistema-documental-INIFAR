@@ -45,7 +45,7 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"Fecha de realización: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
     pdf.cell(0, 10, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}", ln=True)
     
-   pdf.cell(0, 10, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
+    pdf.cell(0, 10, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
 
 # Normalizamos para comparar
 proyecto_norm = str(proyecto_unidad).strip().lower()
