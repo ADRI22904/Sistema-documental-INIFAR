@@ -1,4 +1,3 @@
-import base64
 import streamlit as st
 import pandas as pd
 from fpdf import FPDF
@@ -44,7 +43,7 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"Periodo de nombramiento: {row.get('Periodo de nombramiento', '')}", ln=True)
     pdf.cell(0, 10, f"Cantidad de horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
     pdf.cell(0, 10, f"Fecha de realización: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
-    pdf.multi_cell(0, 8, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}")
+    
 
     return pdf
 
@@ -57,15 +56,23 @@ st.title("Registro de labores INIFAR 🧾")
 df = cargar_personas()            
 df_respuestas = cargar_respuestas()  
 
-st.write("Total de respuestas cargadas:", len(df_respuestas))
+# Limpieza de nombres de columnas (evita errores por espacios)
+df.columns = df.columns.str.strip()
+df_respuestas.columns = df_respuestas.columns.str.strip()
 
 # Selección de asistente
 opciones = sorted(df_respuestas["Nombre del asistente"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
-# (Se deja la selección de actividad aunque ya no se use)
+# Selección de unidad o proyecto (desde Google Forms)
+unidades = sorted(
+    df["Indique el proyecto o unidad para el cuál realizó la tarea"].dropna().unique()
+)
+unidad_sel = st.selectbox("Selecciona la unidad o proyecto:", unidades)
+
+# Selección de actividad (por ahora no filtra; luego lo conectamos)
 actividades = sorted(df["Tipo de actividad"].dropna().unique())
-actividad_sel = st.selectbox("Selecciona una actividad:", actividades)
+actividad_sel = st.selectbox("Selecciona una actividad:", actividades
 
 # Botón generar PDF
 if st.button("Generar PDF"):
