@@ -43,6 +43,7 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"Periodo de nombramiento: {row.get('Periodo de nombramiento', '')}", ln=True)
     pdf.cell(0, 10, f"Cantidad de horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
     pdf.cell(0, 10, f"Fecha de realización: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
+    pdf.cell(0, 10, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}", ln=True)
     
 
     return pdf
@@ -64,11 +65,8 @@ df_respuestas.columns = df_respuestas.columns.str.strip()
 opciones = sorted(df_respuestas["Nombre del asistente"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
-# Selección de unidad o proyecto (desde Google Forms)
-unidades = sorted(
-    df["Unidad o proyecto"].dropna().unique()
-)
-unidad_sel = st.selectbox("Selecciona la unidad o proyecto:", unidades)
+
+
 
 # Selección de actividad (por ahora no filtra; luego lo conectamos)
 actividades = sorted(df["Tipo de actividad"].dropna().unique())
