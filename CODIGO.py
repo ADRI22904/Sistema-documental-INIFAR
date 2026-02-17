@@ -113,7 +113,6 @@ actividades = sorted(df["Tipo de actividad"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona una actividad:", actividades)
 
 if st.button("Generar PDF"):
-    fila = df[df["Nombre completo"] == nombre_sel].iloc[0]
     pdf = generar_pdf_respuesta(fila)
     pdf_str = pdf.output(dest='S')
     pdf_bytes = pdf_str.encode('latin1')
