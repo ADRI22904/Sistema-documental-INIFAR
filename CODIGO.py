@@ -116,7 +116,7 @@ actividad_sel = st.selectbox("Selecciona una actividad:", actividades)
 
 if st.button("Generar PDF"):
     fila = df_respuestas[
-        (df["Nombre completo"] == nombre_sel) &
+        (df_respuestas["Nombre completo"] == nombre_sel) &
         (df_respuestas["Tipo de actividad"] == actividad_sel)
     ].iloc[0]
 
