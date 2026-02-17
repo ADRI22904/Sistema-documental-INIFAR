@@ -50,7 +50,7 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"¿La empresa es propia de ARPYMES o externa?: {respuesta_empresa}", ln=True)
 
     # Si es externa, mostrar el nombre de la empresa en la siguiente línea
-    if str(respuesta_empresa).strip().lower() == "Externa":
+    if str(respuesta_empresa).strip().lower() == "externa":
         nombre_empresa = row.get("En caso de ser externa coloque el nombre de la empresa", "")
         pdf.cell(0, 10, f"Nombre de la empresa: {nombre_empresa}", ln=True)
     
