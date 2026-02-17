@@ -72,7 +72,7 @@ unidad_sel = st.selectbox("Selecciona la unidad o proyecto:", unidades)
 
 # Selección de actividad (por ahora no filtra; luego lo conectamos)
 actividades = sorted(df["Tipo de actividad"].dropna().unique())
-actividad_sel = st.selectbox("Selecciona una actividad:", actividades
+actividad_sel = st.selectbox("Selecciona una actividad:", actividades)
 
 # Botón generar PDF
 if st.button("Generar PDF"):
