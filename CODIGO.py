@@ -76,24 +76,9 @@ if st.button("Generar PDF"):
     else:
         fila = registros.iloc[-1]
         pdf = generar_pdf_respuesta(fila)
-
         pdf_bytes = pdf.output(dest='S').encode('latin1')
         buffer = io.BytesIO(pdf_bytes)
 
-        # === Vista previa del PDF ===
-        b64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-        pdf_display = f"""
-        <iframe 
-            src="data:application/pdf;base64,{b64_pdf}" 
-            width="700" 
-            height="900" 
-            type="application/pdf">
-        </iframe>
-        """
-        st.markdown("### 👀 Vista previa del PDF")
-        st.markdown(pdf_display, unsafe_allow_html=True)
-
-        # === Botón de descarga ===
         st.download_button(
             label="📥 Descargar PDF",
             data=buffer,
