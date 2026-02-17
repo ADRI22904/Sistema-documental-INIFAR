@@ -47,7 +47,6 @@ def generar_pdf_respuesta(row):
 # === INTERFAZ STREAMLIT ===
 image = Image.open("IMAGEN_SIN_FONDO.png")
 st.image(image, width=500)
-
 st.title("Registro de labores INIFAR 🧾")
 
 df_personas = cargar_personas()
@@ -76,8 +75,8 @@ if st.button("Generar PDF"):
         fila = df_respuestas[filtro].iloc[0]
         pdf = generar_pdf_respuesta(fila)
 
-        pdf_str = pdf.output(dest="S")
-        pdf_bytes = pdf_str.encode("latin1")
+        pdf_str = pdf.output(dest='S')
+        pdf_bytes = pdf_str.encode('latin1')
         buffer = io.BytesIO(pdf_bytes)
 
         st.download_button(
