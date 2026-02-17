@@ -107,7 +107,7 @@ df_respuestas = cargar_respuestas()  # 👈 Para el PDF
 st.write("Total de respuestas cargadas:", len(df))
 
 # Selección de registro por nombre (IGUAL)
-opciones = sorted(df["Nombre"].dropna().unique())
+opciones = sorted(df["Nombre del asistente"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
 # Selección de actividad (IGUAL)
