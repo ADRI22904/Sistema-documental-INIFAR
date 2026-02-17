@@ -39,61 +39,64 @@ def generar_pdf_respuesta(row):
     pdf.add_page()
 
     pdf.set_font("Arial", '', 12)
-    pdf.cell(0, 10, f"Nombre del solicitante: {row['Nombre completo']}", ln=True)
-    pdf.cell(0, 10, f"Correo electrónico: {row['Correo electrónico']}", ln=True)
-    pdf.cell(0, 10, f"Tipo de proyecto: {row['Tipo de proyecto']}", ln=True)
-    pdf.cell(0, 10, f"Tipo de actividad: {row['Tipo de actividad']}", ln=True)
-    pdf.ln(5)
+    pdf.cell(0, 10, f"Nombre del solicitante: {row['Nombre del asistente']}", ln=True)
+    pdf.cell(0, 10, f"Carné del asistente: {row['Carné del aasistente']}", ln=True)
+    pdf.cell(0, 10, f"Periodo de nombramiento: {row['Periodo de nombramiento']}", ln=True)
+    pdf.cell(0, 10, f"Cantidad de horas realizadas: {row['Indique la cantidad de horas realizadas']}", ln=True)
+    pdf.cell(0, 10, f"Fecha en la que se realiza la actividad: {row['Seleccione la fecha en la que se realiza la actividad']}", ln=True)
+    #pdf.cell(0, 10, f"Tipo de proyecto: {row['Tipo de proyecto']}", ln=True)
+    #pdf.cell(0, 10, f"Tipo de actividad: {row['Tipo de actividad']}", ln=True)
+    #pdf.ln(5)
 
     # === SECCIONES CONDICIONALES ===
-    tipo_proyecto = row['Tipo de proyecto'].strip().lower()
-    tipo_actividad = row['Tipo de actividad'].strip().lower()
+    #tipo_proyecto = row['Tipo de proyecto'].strip().lower()
+    #tipo_actividad = row['Tipo de actividad'].strip().lower()
 
     # Información general
-    pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 10, "Información general:", ln=True)
-    pdf.set_font("Arial", '', 11)
-    pdf.multi_cell(0, 8, f"Objetivo de la actividad:\n{row.get('Objetivo', '')}")
-    pdf.multi_cell(0, 8, f"Fecha de realización: {row.get('Fecha de actividad', '')}")
-    pdf.multi_cell(0, 8, f"Lugar: {row.get('Lugar', '')}")
-    pdf.ln(5)
+    #pdf.set_font("Arial", 'B', 12)
+    #pdf.cell(0, 10, "Información general:", ln=True)
+    #pdf.set_font("Arial", '', 11)
+    #pdf.multi_cell(0, 8, f"Objetivo de la actividad:\n{row.get('Objetivo', '')}")
+    #pdf.multi_cell(0, 8, f"Fecha de realización: {row.get('Fecha de actividad', '')}")
+    #pdf.multi_cell(0, 8, f"Lugar: {row.get('Lugar', '')}")
+    #pdf.ln(5)
 
     # Condicional por tipo de proyecto
-    if "arpymes" in tipo_proyecto:
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, "Detalles del proyecto ARPYMES:", ln=True)
-        pdf.set_font("Arial", '', 11)
-        pdf.multi_cell(0, 8, f"Nombre del proyecto: {row.get('Nombre del proyecto ARPYMES', '')}")
-        pdf.multi_cell(0, 8, f"Investigador responsable: {row.get('Investigador responsable', '')}")
-        pdf.ln(5)
+    #if "arpymes" in tipo_proyecto:
+        #pdf.set_font("Arial", 'B', 12)
+        #pdf.cell(0, 10, "Detalles del proyecto ARPYMES:", ln=True)
+        #pdf.set_font("Arial", '', 11)
+        #pdf.multi_cell(0, 8, f"Nombre del proyecto: {row.get('Nombre del proyecto ARPYMES', '')}")
+        #pdf.multi_cell(0, 8, f"Investigador responsable: {row.get('Investigador responsable', '')}")
+        #pdf.ln(5)
 
-    elif "fic" in tipo_proyecto:
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, "Detalles del proyecto FIC:", ln=True)
-        pdf.set_font("Arial", '', 11)
-        pdf.multi_cell(0, 8, f"Nombre del proyecto: {row.get('Nombre del proyecto FIC', '')}")
-        pdf.multi_cell(0, 8, f"Coordinador: {row.get('Coordinador FIC', '')}")
-        pdf.ln(5)
+    #elif "fic" in tipo_proyecto:
+        #pdf.set_font("Arial", 'B', 12)
+        #pdf.cell(0, 10, "Detalles del proyecto FIC:", ln=True)
+        #pdf.set_font("Arial", '', 11)
+        #pdf.multi_cell(0, 8, f"Nombre del proyecto: {row.get('Nombre del proyecto FIC', '')}")
+        #pdf.multi_cell(0, 8, f"Coordinador: {row.get('Coordinador FIC', '')}")
+        #pdf.ln(5)
 
     # Condicional por tipo de actividad
-    if "gira" in tipo_actividad:
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, "Detalles de la gira:", ln=True)
-        pdf.set_font("Arial", '', 11)
-        pdf.multi_cell(0, 8, f"Participantes:\n{row.get('Participantes', '')}")
-        pdf.multi_cell(0, 8, f"Resultados esperados:\n{row.get('Resultados esperados', '')}")
-    elif "formulación" in tipo_actividad:
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, "Detalles de formulación de proyecto:", ln=True)
-        pdf.set_font("Arial", '', 11)
-        pdf.multi_cell(0, 8, f"Descripción de la propuesta:\n{row.get('Descripción del proyecto', '')}")
-    else:
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, "Otra actividad:", ln=True)
-        pdf.set_font("Arial", '', 11)
-        pdf.multi_cell(0, 8, f"Descripción:\n{row.get('Descripción', '')}")
+    #if "gira" in tipo_actividad:
+        #pdf.set_font("Arial", 'B', 12)
+        #pdf.cell(0, 10, "Detalles de la gira:", ln=True)
+        #pdf.set_font("Arial", '', 11)
+        #pdf.multi_cell(0, 8, f"Participantes:\n{row.get('Participantes', '')}")
+        #pdf.multi_cell(0, 8, f"Resultados esperados:\n{row.get('Resultados esperados', '')}")
+    #elif "formulación" in tipo_actividad:
+        #pdf.set_font("Arial", 'B', 12)
+        #pdf.cell(0, 10, "Detalles de formulación de proyecto:", ln=True)
+        #pdf.set_font("Arial", '', 11)
+        #pdf.multi_cell(0, 8, f"Descripción de la propuesta:\n{row.get('Descripción del proyecto', '')}")
+    #else:
+        #pdf.set_font("Arial", 'B', 12)
+        #pdf.cell(0, 10, "Otra actividad:", ln=True)
+        #pdf.set_font("Arial", '', 11)
+        #pdf.multi_cell(0, 8, f"Descripción:\n{row.get('Descripción', '')}")
 
-    return pdf
+    #return pdf
 
 # === INTERFAZ STREAMLIT ===
 image = Image.open("IMAGEN_SIN_FONDO.png")
@@ -105,7 +108,8 @@ df = cargar_personas()
 st.write("Total de respuestas cargadas:", len(df))
 
 # Selección de registro por nombre o correo
-opciones = sorted(df["Nombre"].dropna().unique())
+df = cargar_personas()
+opciones = df["Nombre"].unique()
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones)
 
 #Selección de actividad
