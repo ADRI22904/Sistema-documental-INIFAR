@@ -63,8 +63,7 @@ def generar_pdf_respuesta(row):
     pdf.cell(0, 10, f"Tipo de actividad: {tipo_actividad}", ln=True)
     pdf.set_font("Arial", '', 12)
 
-    tipo_norm = str(tipo_actividad).strip().lower()
-    def campo(nombre): return row.get(nombre, "")
+
     # === TIPO DE ACTIVIDAD ===
     tipo_actividad = row.get("Seleccione el tipo de actividad que realizó", "")
     pdf.ln(5)
