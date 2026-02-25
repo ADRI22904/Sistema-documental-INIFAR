@@ -9,7 +9,8 @@ import os
 class PDF(FPDF):
     def header(self):
         if os.path.exists("IMAGEN_SIN_FONDO.png"):
-            self.image("IMAGEN_SIN_FONDO.png", x=170, y=8, w=22)  # logo pequeño en esquina
+            self.image("IMAGEN_SIN_FONDO.png", x=160, y=8, w=35)  # logo más grande
+        self.ln(18)  # baja el título para no tapar el logo
         self.set_font('Arial', 'B', 14)
         self.set_fill_color(180, 210, 255)
         self.cell(0, 10, 'Registro de labores de actividades INIFAR', border=0, ln=True, align='C', fill=True)
@@ -41,18 +42,22 @@ def generar_pdf_respuesta(registros):
 
     primero = registros.iloc[0]
 
-    # 🔹 DATOS ÚNICOS (UNA SOLA VEZ)
+    # 🔹 DATOS ÚNICOS
     pdf.cell(0, 10, f"Nombre del asistente: {primero.get('Nombre del asistente', '')}", ln=True)
     pdf.cell(0, 10, f"Carné del asistente: {primero.get('Carné del asistente', '')}", ln=True)
     pdf.cell(0, 10, f"Periodo de nombramiento: {primero.get('Periodo de nombramiento', '')}", ln=True)
     pdf.ln(5)
 
-    # 🔹 UNA SECCIÓN POR CADA RESPUESTA
-    for idx, row in registros.iterrows():
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, f"--- Registro #{idx + 1} ---", ln=True)
-        pdf.set_font("Arial", '', 12)
+    for _, row in registros.iterrows():
+        # 🔹 DIVISIÓN VISUAL (LÍNEA PUNTEADA CELESTE)
+        pdf.set_draw_color(180, 210, 255)
+        pdf.set_line_width(0.8)
+        pdf.dashed_line(10, pdf.get_y(), 200, pdf.get_y())
+        pdf.ln(5)
+        pdf.set_draw_color(0, 0, 0)
+        pdf.set_line_width(0.2)
 
+        pdf.set_font("Arial", '', 12)
         pdf.cell(0, 10, f"Horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
         pdf.cell(0, 10, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
 
@@ -71,7 +76,7 @@ def generar_pdf_respuesta(registros):
             if str(respuesta_inifar_empresa).strip().lower() == "empresa":
                 pdf.cell(0, 10, f"Empresa: {row.get('En caso de ser para alguna empresa coloque el nombre de esta', '')}", ln=True)
 
-        # === TIPO DE ACTIVIDAD (TU LÓGICA ORIGINAL COMPLETA) ===
+        # === TU LÓGICA ORIGINAL POR TIPO DE ACTIVIDAD (NO TOCADA) ===
         tipo_actividad = row.get("Seleccione el tipo de actividad que realizó", "")
         pdf.ln(5)
         pdf.set_font("Arial", 'B', 12)
@@ -164,7 +169,7 @@ def generar_pdf_respuesta(registros):
             pdf.multi_cell(0, 8, f"Evidencia: {campo('Evidencia fotográfica')}")
             pdf.multi_cell(0, 8, f"Anexos: {campo('Anexos')}")
 
-        pdf.ln(8)
+        pdf.ln(6)
 
     return pdf
 
