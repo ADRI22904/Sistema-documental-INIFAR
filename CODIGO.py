@@ -57,13 +57,6 @@ def generar_pdf_respuesta(row):
         if str(respuesta_inifar_empresa).strip().lower() == "empresa":
             pdf.cell(0, 10, f"Empresa: {row.get('En caso de ser para alguna empresa coloque el nombre de esta', '')}", ln=True)
 
-    tipo_actividad = row.get("Seleccione el tipo de actividad que realizó", "")
-    pdf.ln(5)
-    pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 10, f"Tipo de actividad: {tipo_actividad}", ln=True)
-    pdf.set_font("Arial", '', 12)
-
-
     # === TIPO DE ACTIVIDAD ===
     tipo_actividad = row.get("Seleccione el tipo de actividad que realizó", "")
     pdf.ln(5)
