@@ -1,3 +1,10 @@
+ahora como hago para que en caso de que se seleccione alguna las siguientes opciones de asistente o usuario: ARPYMES
+LAFITEC
+LAPONABI
+BIOEQUIVALENCIA
+Análisis de estado sólido
+Formulación de productos
+se haga un informe de todos los estudiantes que han marcado esa unidad o proyecto y de la actividad que marcaron. ejemplo si se selecciona arpymes y sesion de trabajo con empresa entonces que se haga un informe de todos los estudiantes que hayan seleccionado la unidad de arpymes y la actividad de sesion de trabajo con empresa y que incluya la informacion de los informes normales de los estudiantes. es decir que tenga la misma informacion soloq ue sea como un recopilado de estas.
 import streamlit as st
 import pandas as pd
 from fpdf import FPDF
@@ -39,63 +46,7 @@ def cargar_personas():
     return pd.read_csv(url_personas)
 
 
-# === FUNCIÓN REUTILIZABLE PARA PINTAR DETALLE SEGÚN TIPO DE ACTIVIDAD ===
-def pintar_detalle_por_tipo(pdf, row, tipo_actividad):
-    def campo(nombre): 
-        return row.get(nombre, "")
-
-    tipo_norm = str(tipo_actividad).strip().lower()
-
-    if tipo_norm == "sesión de trabajo con empresa":
-        pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
-        pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
-        pdf.multi_cell(0, 8, f"Modalidad: {campo('Seleccione la modalidad de la reunión')}")
-        pdf.multi_cell(0, 8, f"Lugar: {campo('Indique el lugar o plataforma por la cuál se desarrolló la reunión')}")
-        pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual realizó la actividad')}")
-        pdf.multi_cell(0, 8, f"Provincia: {campo('Seleccione la provincia donde se ubica la empresa')}")
-        pdf.multi_cell(0, 8, f"Estudiantes: {campo('Indique el nombre  de los estudiantes participantes')}")
-        pdf.multi_cell(0, 8, f"Personas empresa: {campo('Indique el nombre de las personas de la empresa que participan de la reunión')}")
-        pdf.multi_cell(0, 8, f"Población beneficiaria: {campo('Indique la población beneficiaria de la sesión (los que reciben el apoyo)')}")
-        pdf.multi_cell(0, 8, f"Tipo de apoyo: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
-        pdf.multi_cell(0, 8, f"Descripción: {campo('Descripción de la actividad')}")
-        pdf.multi_cell(0, 8, f"Fotos: {campo('Favor incluir 1 fotografías de las actividades realizadas ')}")
-
-        contacto = campo("Indique el contacto de la empresa")
-        pdf.multi_cell(0, 8, f"Contacto: {contacto}")
-        if str(contacto).lower() == "teléfono":
-            pdf.multi_cell(0, 8, f"Teléfono: {campo('Ingrese el número de teléfono de contacto de la empresa')}")
-        elif str(contacto).lower() == "correo electrónico":
-            pdf.multi_cell(0, 8, f"Correo: {campo('Indique el correo electrónico de la empresa')}")
-
-    elif tipo_norm == "apoyo logístico":
-        pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
-        pdf.multi_cell(0, 8, f"Detalle: {campo('Indique de manera detallada la actividad de apoyo logístico brindado')}")
-        pdf.multi_cell(0, 8, f"Fotos: {campo('Adjunte 2 fotografías como registro fotográfico')}")
-        pdf.multi_cell(0, 8, f"Documentos: {campo('Coloque la referencia a todos los documentos generados.')}")
-
-    elif tipo_norm == "giras":
-        provincia = campo("Seleccione la provincia del lugar donde se realizó la gira")
-        pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
-        pdf.multi_cell(0, 8, f"Provincia: {provincia}")
-        pdf.multi_cell(0, 8, f"Objetivo: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
-
-    elif tipo_norm == "revisión bibliográfica":
-        pdf.multi_cell(0, 8, f"Tema: {campo('Indique el tema a investigar a través de la revisión bibliográfica')}")
-        pdf.multi_cell(0, 8, f"Aportes: {campo('Indique aspectos relevantes encontrados en el documento, y que representen un aporte sustancioso para el proyecto y el trabajo en el laboratorio.')}")
-
-    elif tipo_norm == "pruebas de laboratorio":
-        pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
-        pdf.multi_cell(0, 8, f"Laboratorio: {campo('Indique el laboratorio donde se realizaron las pruebas')}")
-
-    elif tipo_norm == "sesiones de trabajo con equipo inifar":
-        pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
-        pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
-
-    elif tipo_norm == "otras actividades":
-        pdf.multi_cell(0, 8, f"Detalle: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
-
-
-# === FUNCIÓN PDF INDIVIDUAL ===
+# === FUNCIÓN PARA CREAR EL PDF ===
 def generar_pdf_respuesta(registros, tipo_actividad):
     pdf = PDF(f"Registro de {tipo_actividad.title()}")
     pdf.set_left_margin(10)
@@ -103,6 +54,7 @@ def generar_pdf_respuesta(registros, tipo_actividad):
     pdf.add_page()
     pdf.set_font("Arial", '', 12)
 
+    # 🔹 Datos generales SOLO UNA VEZ
     fila_base = registros.iloc[0]
     pdf.cell(0, 10, f"Nombre del asistente: {fila_base.get('Nombre del asistente', '')}", ln=True)
     pdf.cell(0, 10, f"Carné del asistente: {fila_base.get('Carné del asistente', '')}", ln=True)
@@ -110,51 +62,86 @@ def generar_pdf_respuesta(registros, tipo_actividad):
     pdf.ln(5)
 
     for _, row in registros.iterrows():
+
+        # 🔹 División celeste
         pdf.set_fill_color(180, 210, 255)
         pdf.cell(0, 3, "", ln=True, fill=True)
         pdf.ln(3)
-
-        pdf.cell(0, 10, f"Horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
-        pdf.cell(0, 10, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
-        pdf.cell(0, 10, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}", ln=True)
-
-        pintar_detalle_por_tipo(pdf, row, tipo_actividad)
-
-    return pdf
-
-
-# === FUNCIÓN PDF CONSOLIDADO ===
-def generar_pdf_consolidado(registros, unidad, tipo_actividad):
-    pdf = PDF(f"Informe consolidado - {unidad} - {tipo_actividad.title()}")
-    pdf.set_left_margin(10)
-    pdf.set_right_margin(10)
-    pdf.add_page()
-    pdf.set_font("Arial", '', 12)
-
-    pdf.cell(0, 10, f"Unidad / Proyecto: {unidad}", ln=True)
-    pdf.cell(0, 10, f"Actividad: {tipo_actividad}", ln=True)
-    pdf.cell(0, 10, f"Total de registros: {len(registros)}", ln=True)
-    pdf.ln(5)
-
-    for _, row in registros.iterrows():
-        pdf.set_fill_color(180, 210, 255)
-        pdf.cell(0, 3, "", ln=True, fill=True)
-        pdf.ln(3)
-
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, f"Asistente: {row.get('Nombre del asistente', '')}", ln=True)
 
         pdf.set_font("Arial", '', 12)
-        pdf.cell(0, 10, f"Carné: {row.get('Carné del asistente', '')}", ln=True)
+        pdf.cell(0, 10, f"Horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
         pdf.cell(0, 10, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
-        pdf.cell(0, 10, f"Horas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
-        pdf.cell(0, 10, f"Proyecto o unidad: {row.get('Indique el proyecto o unidad para el cuál realizó la tarea.', '')}", ln=True)
 
-        pintar_detalle_por_tipo(pdf, row, tipo_actividad)
+        proyecto_unidad = row.get("Indique el proyecto o unidad para el cuál realizó la tarea.", "")
+        pdf.cell(0, 10, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
+        proyecto_norm = str(proyecto_unidad).strip().lower()
+
+        if proyecto_norm == "arpymes":
+            respuesta_empresa = row.get("¿La empresa es propia de ARPYMES o externa?", "")
+            pdf.cell(0, 10, f"Empresa ARPYMES o externa: {respuesta_empresa}", ln=True)
+            if str(respuesta_empresa).strip().lower() == "externa":
+                pdf.cell(0, 10, f"Empresa: {row.get('En caso de ser externa coloque el nombre de la empresa', '')}", ln=True)
+        else:
+            respuesta_inifar_empresa = row.get("¿La actividad es propia del INIFAR o para algún tipo de empresa?", "")
+            pdf.cell(0, 10, f"Actividad INIFAR o empresa: {respuesta_inifar_empresa}", ln=True)
+            if str(respuesta_inifar_empresa).strip().lower() == "empresa":
+                pdf.cell(0, 10, f"Empresa: {row.get('En caso de ser para alguna empresa coloque el nombre de esta', '')}", ln=True)
+
+        tipo_norm = str(tipo_actividad).strip().lower()
+        def campo(nombre): return row.get(nombre, "")
+
+        if tipo_norm == "sesión de trabajo con empresa":
+            pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
+            pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
+            pdf.multi_cell(0, 8, f"Modalidad: {campo('Seleccione la modalidad de la reunión')}")
+            pdf.multi_cell(0, 8, f"Lugar: {campo('Indique el lugar o plataforma por la cuál se desarrolló la reunión')}")
+            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Provincia: {campo('Seleccione la provincia donde se ubica la empresa')}")
+            pdf.multi_cell(0, 8, f"Estudiantes: {campo('Indique el nombre  de los estudiantes participantes')}")
+            pdf.multi_cell(0, 8, f"Personas empresa: {campo('Indique el nombre de las personas de la empresa que participan de la reunión')}")
+            pdf.multi_cell(0, 8, f"Población beneficiaria: {campo('Indique la población beneficiaria de la sesión (los que reciben el apoyo)')}")
+            pdf.multi_cell(0, 8, f"Tipo de apoyo: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
+            pdf.multi_cell(0, 8, f"Descripción: {campo('Descripción de la actividad')}")
+            pdf.multi_cell(0, 8, f"Fotos: {campo('Favor incluir 1 fotografías de las actividades realizadas ')}")
+
+            contacto = campo("Indique el contacto de la empresa")
+            pdf.multi_cell(0, 8, f"Contacto: {contacto}")
+            if str(contacto).lower() == "teléfono":
+                pdf.multi_cell(0, 8, f"Teléfono: {campo('Ingrese el número de teléfono de contacto de la empresa')}")
+            elif str(contacto).lower() == "correo electrónico":
+                pdf.multi_cell(0, 8, f"Correo: {campo('Indique el correo electrónico de la empresa')}")
+
+        elif tipo_norm == "apoyo logístico":
+            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Detalle: {campo('Indique de manera detallada la actividad de apoyo logístico brindado')}")
+            pdf.multi_cell(0, 8, f"Fotos: {campo('Adjunte 2 fotografías como registro fotográfico')}")
+            pdf.multi_cell(0, 8, f"Documentos: {campo('Coloque la referencia a todos los documentos generados.')}")
+
+        elif tipo_norm == "giras":
+            provincia = campo("Seleccione la provincia del lugar donde se realizó la gira")
+            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Provincia: {provincia}")
+            pdf.multi_cell(0, 8, f"Objetivo: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
+
+        elif tipo_norm == "revisión bibliográfica":
+            pdf.multi_cell(0, 8, f"Tema: {campo('Indique el tema a investigar a través de la revisión bibliográfica')}")
+            pdf.multi_cell(0, 8, f"Aportes: {campo('Indique aspectos relevantes encontrados en el documento, y que representen un aporte sustancioso para el proyecto y el trabajo en el laboratorio.')}")
+
+        elif tipo_norm == "pruebas de laboratorio":
+            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Laboratorio: {campo('Indique el laboratorio donde se realizaron las pruebas')}")
+
+        elif tipo_norm == "sesiones de trabajo con equipo inifar":
+            pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
+            pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
+
+        elif tipo_norm == "otras actividades":
+            pdf.multi_cell(0, 8, f"Detalle: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
 
     return pdf
 
 
+# === INTERFAZ STREAMLIT ===
 # === INTERFAZ STREAMLIT ===
 image = Image.open("IMAGEN_SIN_FONDO.png")
 st.image(image, width=500)
@@ -164,73 +151,62 @@ st.title("Registro de labores INIFAR 🧾")
 df = cargar_personas()
 df_respuestas = cargar_respuestas()
 
+# Normalizar columnas
 df.columns = df.columns.str.strip().str.lower()
 df_respuestas.columns = df_respuestas.columns.str.strip()
 
+# Inicializar estado de sesión
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 
+if "nombre_sel" not in st.session_state:
+    st.session_state.nombre_sel = None
+
+# Selección de nombre
 opciones_nombres = sorted(df["nombre"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones_nombres)
+
+# Input de contraseña
 password_input = st.text_input("Ingrese su contraseña:", type="password")
 
+# Botón para validar contraseña
 if st.button("Validar contraseña"):
     fila_persona = df[df["nombre"] == nombre_sel]
-    if not fila_persona.empty:
-        if password_input.strip() == str(fila_persona.iloc[0]["contraseña"]).strip():
-            st.success("✅ Acceso correcto")
-            st.session_state.autenticado = True
-        else:
-            st.error("❌ Contraseña incorrecta")
 
-if st.session_state.autenticado:
+    if not fila_persona.empty:
+        contraseña_real = str(fila_persona.iloc[0]["contraseña"]).strip()
+        if password_input.strip() == contraseña_real:
+            st.success("✅ Contraseña correcta. Ahora puede seleccionar la actividad.")
+            st.session_state.autenticado = True
+            st.session_state.nombre_sel = nombre_sel
+        else:
+            st.error("❌ Contraseña incorrecta.")
+            st.session_state.autenticado = False
+    else:
+        st.error("❌ No se encontró el asistente.")
+
+# SOLO SI ESTÁ AUTENTICADO SE MUESTRA EL RESTO
+if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
+
     opciones_actividades = sorted(df["tipo de actividad"].dropna().unique())
     actividad_sel = st.selectbox("Selecciona una actividad:", opciones_actividades)
 
-    unidades = [
-        "ARPYMES",
-        "LAFITEC",
-        "LAPONABI",
-        "BIOEQUIVALENCIA",
-        "Análisis de estado sólido",
-        "Formulación de productos"
-    ]
-    unidad_sel = st.selectbox("Selecciona el proyecto / unidad:", unidades)
-
-    if st.button("📄 Generar PDF individual"):
+    if st.button("Generar PDF"):
         registros = df_respuestas[
             (df_respuestas["Nombre del asistente"] == nombre_sel) &
             (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel)
         ]
 
         if registros.empty:
-            st.warning("⚠️ No hay registros para este asistente y actividad.")
+            st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
         else:
             pdf = generar_pdf_respuesta(registros, actividad_sel)
-            buffer = io.BytesIO(pdf.output(dest='S').encode('latin1'))
+            pdf_bytes = pdf.output(dest='S').encode('latin1')
+            buffer = io.BytesIO(pdf_bytes)
 
             st.download_button(
-                "📥 Descargar PDF individual",
+                label="📥 Descargar PDF",
                 data=buffer,
                 file_name=f"reporte_{nombre_sel.replace(' ', '_')}.pdf",
-                mime="application/pdf"
-            )
-
-    if st.button("📊 Generar PDF consolidado por unidad y actividad"):
-        registros = df_respuestas[
-            (df_respuestas["Indique el proyecto o unidad para el cuál realizó la tarea."].str.strip().str.lower() == unidad_sel.strip().lower()) &
-            (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel)
-        ]
-
-        if registros.empty:
-            st.warning("⚠️ No hay registros para esa unidad y actividad.")
-        else:
-            pdf = generar_pdf_consolidado(registros, unidad_sel, actividad_sel)
-            buffer = io.BytesIO(pdf.output(dest='S').encode('latin1'))
-
-            st.download_button(
-                "📥 Descargar PDF consolidado",
-                data=buffer,
-                file_name=f"reporte_{unidad_sel.replace(' ', '_')}_{actividad_sel.replace(' ', '_')}.pdf",
                 mime="application/pdf"
             )
