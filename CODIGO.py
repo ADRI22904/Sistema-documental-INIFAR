@@ -1,10 +1,4 @@
-ahora como hago para que en caso de que se seleccione alguna las siguientes opciones de asistente o usuario: ARPYMES
-LAFITEC
-LAPONABI
-BIOEQUIVALENCIA
-Análisis de estado sólido
-Formulación de productos
-se haga un informe de todos los estudiantes que han marcado esa unidad o proyecto y de la actividad que marcaron. ejemplo si se selecciona arpymes y sesion de trabajo con empresa entonces que se haga un informe de todos los estudiantes que hayan seleccionado la unidad de arpymes y la actividad de sesion de trabajo con empresa y que incluya la informacion de los informes normales de los estudiantes. es decir que tenga la misma informacion soloq ue sea como un recopilado de estas.
+
 import streamlit as st
 import pandas as pd
 from fpdf import FPDF
