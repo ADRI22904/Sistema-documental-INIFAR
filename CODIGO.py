@@ -135,6 +135,7 @@ def generar_pdf_respuesta(registros, tipo_actividad):
 
 
 # === INTERFAZ STREAMLIT ===
+# === INTERFAZ STREAMLIT ===
 image = Image.open("IMAGEN_SIN_FONDO.png")
 st.image(image, width=500)
 
@@ -143,31 +144,62 @@ st.title("Registro de labores INIFAR 🧾")
 df = cargar_personas()
 df_respuestas = cargar_respuestas()
 
+# Normalizar columnas
 df.columns = df.columns.str.strip().str.lower()
 df_respuestas.columns = df_respuestas.columns.str.strip()
 
+# Inicializar estado de sesión
+if "autenticado" not in st.session_state:
+    st.session_state.autenticado = False
+
+if "nombre_sel" not in st.session_state:
+    st.session_state.nombre_sel = None
+
+# Selección de nombre
 opciones_nombres = sorted(df["nombre"].dropna().unique())
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones_nombres)
 
-opciones_actividades = sorted(df["tipo de actividad"].dropna().unique())
-actividad_sel = st.selectbox("Selecciona una actividad:", opciones_actividades)
+# Input de contraseña
+password_input = st.text_input("Ingrese su contraseña:", type="password")
 
-if st.button("Generar PDF"):
-    registros = df_respuestas[
-        (df_respuestas["Nombre del asistente"] == nombre_sel) &
-        (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel)
-    ]
+# Botón para validar contraseña
+if st.button("Validar contraseña"):
+    fila_persona = df[df["nombre"] == nombre_sel]
 
-    if registros.empty:
-        st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
+    if not fila_persona.empty:
+        contraseña_real = str(fila_persona.iloc[0]["contraseña"]).strip()
+        if password_input.strip() == contraseña_real:
+            st.success("✅ Contraseña correcta. Ahora puede seleccionar la actividad.")
+            st.session_state.autenticado = True
+            st.session_state.nombre_sel = nombre_sel
+        else:
+            st.error("❌ Contraseña incorrecta.")
+            st.session_state.autenticado = False
     else:
-        pdf = generar_pdf_respuesta(registros, actividad_sel)
-        pdf_bytes = pdf.output(dest='S').encode('latin1')
-        buffer = io.BytesIO(pdf_bytes)
+        st.error("❌ No se encontró el asistente.")
 
-        st.download_button(
-            label="📥 Descargar PDF",
-            data=buffer,
-            file_name=f"reporte_{nombre_sel.replace(' ', '_')}.pdf",
-            mime="application/pdf"
-        )
+# SOLO SI ESTÁ AUTENTICADO SE MUESTRA EL RESTO
+if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
+
+    opciones_actividades = sorted(df["tipo de actividad"].dropna().unique())
+    actividad_sel = st.selectbox("Selecciona una actividad:", opciones_actividades)
+
+    if st.button("Generar PDF"):
+        registros = df_respuestas[
+            (df_respuestas["Nombre del asistente"] == nombre_sel) &
+            (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel)
+        ]
+
+        if registros.empty:
+            st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
+        else:
+            pdf = generar_pdf_respuesta(registros, actividad_sel)
+            pdf_bytes = pdf.output(dest='S').encode('latin1')
+            buffer = io.BytesIO(pdf_bytes)
+
+            st.download_button(
+                label="📥 Descargar PDF",
+                data=buffer,
+                file_name=f"reporte_{nombre_sel.replace(' ', '_')}.pdf",
+                mime="application/pdf"
+            )
