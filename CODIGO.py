@@ -40,8 +40,8 @@ def cargar_personas():
 
 
 # === FUNCIÓN PARA CREAR EL PDF ===
-def generar_pdf_respuesta(registros, tipo_actividad):
-    pdf = PDF(tipo_actividad)
+def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
+    pdf = PDF(titulo_pdf)
     pdf.set_left_margin(10)
     pdf.set_right_margin(10)
     pdf.add_page()
@@ -220,7 +220,7 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
         if registros.empty:
             st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
         else:
-            pdf = generar_pdf_respuesta(registros, titulo_pdf)
+            pdf = generar_pdf_respuesta(registros, titulo_pdf, actividad_sel)
             pdf_bytes = pdf.output(dest='S').encode('latin1')
             buffer = io.BytesIO(pdf_bytes)
 
