@@ -227,10 +227,10 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
                 (df_respuestas["proyecto_norm"] == "arpymes")
             ]
 
-    registros = registros.sort_values(by=["Nombre del asistente"])
+            registros = registros.sort_values(by=["Nombre del asistente"])
 
-    titulo_pdf = "Compilado ARPYMES - Sesión de trabajo con empresa"
-    nombre_archivo = "compilado_arpymes_sesion_empresa.pdf"
+            titulo_pdf = "Compilado ARPYMES - Sesión de trabajo con empresa"
+            nombre_archivo = "compilado_arpymes_sesion_empresa.pdf"
         else:
             registros = df_respuestas[
                 (df_respuestas["Nombre del asistente"] == nombre_sel) &
