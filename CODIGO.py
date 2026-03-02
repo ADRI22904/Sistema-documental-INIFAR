@@ -197,7 +197,7 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
     actividad_sel = st.selectbox("Selecciona una actividad:", opciones_actividades)
 
     if st.button("Generar PDF"):
-         if nombre_sel.strip().lower() == "arpymes" and actividad_sel.strip().lower() == "sesión de trabajo con empresa":
+        if nombre_sel.strip().lower() == "arpymes" and actividad_sel.strip().lower() == "sesión de trabajo con empresa":
             registros = df_respuestas[
                 (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel) &
                 (df_respuestas["Indique el proyecto o unidad para el cuál realizó la tarea."].str.strip().str.lower() == "arpymes")
