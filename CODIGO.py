@@ -42,7 +42,7 @@ def cargar_personas():
 
 # === FUNCIÓN PARA CREAR EL PDF ===
 def generar_pdf_respuesta(registros, tipo_actividad):
-    pdf = PDF(f"Registro de {tipo_actividad.title()}")
+    pdf = PDF(tipo_actividad)
     pdf.set_left_margin(10)
     pdf.set_right_margin(10)
     pdf.add_page()
@@ -186,21 +186,33 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
     actividad_sel = st.selectbox("Selecciona una actividad:", opciones_actividades)
 
     if st.button("Generar PDF"):
-        registros = df_respuestas[
-            (df_respuestas["Nombre del asistente"] == nombre_sel) &
-            (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel)
-        ]
+
+        if nombre_sel.strip().lower() == "arpymes" and actividad_sel.strip().lower() == "sesión de trabajo con empresa":
+            registros = df_respuestas[
+                (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel) &
+                (df_respuestas["Indique el proyecto o unidad para el cuál realizó la tarea."].str.strip().str.lower() == "arpymes")
+            ]
+            titulo_pdf = "Compilado ARPYMES - Sesión de trabajo con empresa"
+            nombre_archivo = "compilado_arpymes_sesion_empresa.pdf"
+        else:
+            registros = df_respuestas[
+                (df_respuestas["Nombre del asistente"] == nombre_sel) &
+                (df_respuestas["Seleccione el tipo de actividad que realizó"] == actividad_sel)
+            ]
+            titulo_pdf = f"Registro de {actividad_sel.title()}"
+            nombre_archivo = f"reporte_{nombre_sel.replace(' ', '_')}.pdf"
+
 
         if registros.empty:
             st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
         else:
-            pdf = generar_pdf_respuesta(registros, actividad_sel)
+            pdf = generar_pdf_respuesta(registros, titulo_pdf)
             pdf_bytes = pdf.output(dest='S').encode('latin1')
             buffer = io.BytesIO(pdf_bytes)
 
             st.download_button(
                 label="📥 Descargar PDF",
                 data=buffer,
-                file_name=f"reporte_{nombre_sel.replace(' ', '_')}.pdf",
+                file_name=nombre_archivo,
                 mime="application/pdf"
             )
