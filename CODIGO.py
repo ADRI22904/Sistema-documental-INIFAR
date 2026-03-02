@@ -1,5 +1,3 @@
-necesito que me ayude a que este codigo tambien sea capaz de de que si en el menu desplegable de seleccione un asistente si se selecciona ARPYMES y sesion de trabajo con empresa se genere un compilado de todos los informes o de todos los reportes del excel que hayan ingresado los asistentes con información que sea de ARPYMES y de esa tarea en especifico
-
 import streamlit as st
 import pandas as pd
 from fpdf import FPDF
