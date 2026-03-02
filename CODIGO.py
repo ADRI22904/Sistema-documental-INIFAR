@@ -167,6 +167,23 @@ df_respuestas = cargar_respuestas()
 df.columns = df.columns.str.strip().str.lower()
 df_respuestas.columns = df_respuestas.columns.str.strip()
 
+# Normalizar valores de columnas problemáticas (quita espacios raros)
+df_respuestas["actividad_norm"] = (
+    df_respuestas["Seleccione el tipo de actividad que realizó"]
+    .astype(str)
+    .str.strip()
+    .str.lower()
+    .str.replace("\u00a0", " ", regex=False)
+)
+
+df_respuestas["proyecto_norm"] = (
+    df_respuestas["Indique el proyecto o unidad para el cuál realizó la tarea."]
+    .astype(str)
+    .str.strip()
+    .str.lower()
+    .str.replace("\u00a0", " ", regex=False)
+)
+
 # Inicializar estado de sesión
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
@@ -206,14 +223,14 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
     if st.button("Generar PDF"):
         if nombre_sel.strip().lower() == "arpymes" and actividad_sel.strip().lower() == "sesión de trabajo con empresa":
             registros = df_respuestas[
-                (df_respuestas["Seleccione el tipo de actividad que realizó"].str.strip().str.lower() == actividad_sel.strip().lower()) &
-                (df_respuestas["Indique el proyecto o unidad para el cuál realizó la tarea."].str.strip().str.lower() == "arpymes")
+                (df_respuestas["actividad_norm"] == actividad_sel.strip().lower()) &
+                (df_respuestas["proyecto_norm"] == "arpymes")
             ]
 
-            registros = registros.sort_values(by=["Nombre del asistente"])
+    registros = registros.sort_values(by=["Nombre del asistente"])
 
-            titulo_pdf = "Compilado ARPYMES - Sesión de trabajo con empresa"
-            nombre_archivo = "compilado_arpymes_sesion_empresa.pdf"
+    titulo_pdf = "Compilado ARPYMES - Sesión de trabajo con empresa"
+    nombre_archivo = "compilado_arpymes_sesion_empresa.pdf"
         else:
             registros = df_respuestas[
                 (df_respuestas["Nombre del asistente"] == nombre_sel) &
