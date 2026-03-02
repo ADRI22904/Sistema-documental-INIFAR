@@ -52,7 +52,13 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
 
     for _, row in registros.iterrows():
 
-        nombre_asistente = row.get("Nombre del asistente", "")
+        # Evita que se "pierdan" registros al final de la página
+        if pdf.get_y() > 250:
+            pdf.add_page()
+            pdf.set_font("Arial", '', 12)
+
+        nombre_asistente = str(row.get("Nombre del asistente", "")).strip().lower()
+        nombre_asistente_mostrar = str(row.get("Nombre del asistente", "")).strip()
     
         # Si cambia el asistente, imprimimos encabezado nuevo
         if nombre_asistente != asistente_actual:
@@ -61,7 +67,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.ln(5)
             pdf.set_fill_color(200, 230, 255)
             pdf.set_font("Arial", "B", 12)
-            pdf.cell(0, 10, f"Asistente: {nombre_asistente}", ln=True, fill=True)
+            pdf.cell(0, 10, f"Asistente: {nombre_asistente_mostrar}", ln=True, fill=True)
 
             pdf.set_font("Arial", "", 12)
             pdf.cell(0, 8, f"Carné: {row.get('Carné del asistente', '')}", ln=True)
