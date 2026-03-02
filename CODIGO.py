@@ -92,8 +92,6 @@ def generar_pdf_respuesta(registros, tipo_actividad):
             if str(respuesta_inifar_empresa).strip().lower() == "empresa":
                 pdf.cell(0, 10, f"Empresa: {row.get('En caso de ser para alguna empresa coloque el nombre de esta', '')}", ln=True)
     
-    
-    for _, row in registros.iterrows():
 
         tipo_norm = str(tipo_actividad).strip().lower()
         def campo(nombre): return row.get(nombre, "")
