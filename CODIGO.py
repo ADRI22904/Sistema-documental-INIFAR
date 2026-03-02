@@ -100,7 +100,7 @@ def generar_pdf_respuesta(registros, tipo_actividad):
             pdf.multi_cell(0, 8, f"Lugar: {campo('Indique el lugar o plataforma por la cuál se desarrolló la reunión')}")
             pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual realizó la actividad')}")
             pdf.multi_cell(0, 8, f"Provincia: {campo('Seleccione la provincia donde se ubica la empresa')}")
-            pdf.multi_cell(0, 8, f"Estudiantes: {campo('Indique el nombre  de los estudiantes participantes')}")
+            pdf.multi_cell(0, 8, f"Estudiantes: {campo('Indique el nombre de los estudiantes participantes')}")
             pdf.multi_cell(0, 8, f"Personas empresa: {campo('Indique el nombre de las personas de la empresa que participan de la reunión')}")
             pdf.multi_cell(0, 8, f"Población beneficiaria: {campo('Indique la población beneficiaria de la sesión (los que reciben el apoyo)')}")
             pdf.multi_cell(0, 8, f"Tipo de apoyo: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
@@ -144,7 +144,6 @@ def generar_pdf_respuesta(registros, tipo_actividad):
     return pdf
 
 
-# === INTERFAZ STREAMLIT ===
 # === INTERFAZ STREAMLIT ===
 image = Image.open("IMAGEN_SIN_FONDO.png")
 st.image(image, width=500)
@@ -213,7 +212,6 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
             ]
             titulo_pdf = f"Registro de {actividad_sel.title()}"
             nombre_archivo = f"reporte_{nombre_sel.replace(' ', '_')}.pdf"
-
 
         if registros.empty:
             st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
