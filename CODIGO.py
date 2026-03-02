@@ -221,7 +221,13 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
             ]
             titulo_pdf = f"Registro de {actividad_sel.title()}"
             nombre_archivo = f"reporte_{nombre_sel.replace(' ', '_')}.pdf"
-
+            
+        st.write("Cantidad de registros en compilado:", len(registros))
+        st.dataframe(registros[[
+            "Nombre del asistente",
+            "Seleccione el tipo de actividad que realizó",
+            "Indique el proyecto o unidad para el cuál realizó la tarea."
+    ]])
 
         if registros.empty:
             st.warning("⚠️ Este estudiante no tiene respuestas asociadas a esta actividad aún.")
