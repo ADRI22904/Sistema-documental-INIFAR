@@ -192,15 +192,8 @@ if "nombre_sel" not in st.session_state:
     st.session_state.nombre_sel = None
 
 # Selección de nombre
-proyectos = [
-    "ARPYMES",
-    "BIOEQUIVALENCIA",
-    "LAFITEC",
-    "Análisis de estado sólido",
-    "Formulación de productos"
-]
 
-opciones_nombres = proyectos + sorted(df["nombre"].dropna().unique())
+opciones_nombres = sorted(df["nombre"].dropna().unique())
 
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones_nombres)
 
@@ -235,7 +228,8 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
         actividad_norm_sel = actividad_sel.strip().lower()
 
         # Si se selecciona un PROYECTO → hacer compilado
-        if nombre_norm in [p.lower() for p in proyectos]:
+        # Si el nombre seleccionado coincide con algún proyecto en las respuestas → es compilado
+        if nombre_norm in df_respuestas["proyecto_norm"].unique():
             registros = df_respuestas[
                 (df_respuestas["proyecto_norm"] == nombre_norm) &
                 (df_respuestas["actividad_norm"] == actividad_norm_sel)
