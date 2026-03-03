@@ -177,15 +177,21 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
 
 
-        
         elif tipo_norm == "revisión bibliográfica":
-            pdf.multi_cell(0, 8, f"Tema: {campo('Indique el tema a investigar a través de la revisión bibliográfica')}")
-            pdf.multi_cell(0, 8, f"Aportes: {campo('Indique aspectos relevantes encontrados en el documento, y que representen un aporte sustancioso para el proyecto y el trabajo en el laboratorio.')}")
-
+            pdf.multi_cell(0, 8, f"Tema a investigar: {campo('Indique el tema a investigar a través de la revisión bibliográfica')}")
+            pdf.multi_cell(0, 8, f"Aportes y aspectos importantes encontrados: {campo('Indique aspectos relevantes encontrados en el documento, y que representen un aporte sustancioso para el proyecto y el trabajo en el laboratorio.')}")
+            pdf.multi_cell(0, 8, f"Referencias del artículo: {campo('Agregue un documento PDF con una tabla que contenga el título del artículo, enlace y abstract.')}")
+        
         elif tipo_norm == "pruebas de laboratorio":
-            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
-            pdf.multi_cell(0, 8, f"Laboratorio: {campo('Indique el laboratorio donde se realizaron las pruebas')}")
-
+            pdf.multi_cell(0, 8, f"Empresa para la cual se realizó la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Laboratorio donde se realizaron las pruebas: {campo('Indique el laboratorio donde se realizaron las pruebas')}")
+            pdf.multi_cell(0, 8, f"Estatus de la actividad: {campo('Indique el estatus de la actividad realizada')}")
+            pdf.multi_cell(0, 8, f"Número de prubas por tipo de apoyo: {campo('Indique el número de pruebas por tipo de apoyo')}")
+            pdf.multi_cell(0, 8, f"Estatus de la actividad: {campo('Indique el estatus de la actividad realizada')}")
+            pdf.multi_cell(0, 8, f"Enlace del esquema general del proyecto: {campo('Adjuntar el enlace del documento del drive del esquema general del proyecto donde se detallen los pasos generales del ensayo o prueba a realizar.')}")
+            pdf.multi_cell(0, 8, f"Tipo de prueba realizada: {campo('Seleccione el tipo de prueba realizada')}")
+            
+        
         elif tipo_norm == "sesiones de trabajo con equipo inifar":
             pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
             pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
@@ -200,8 +206,12 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
 
         
         elif tipo_norm == "otras actividades":
-            pdf.multi_cell(0, 8, f"Detalle: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
-
+            pdf.multi_cell(0, 8, f"Empresa para la cual se realizó la actividad: {campo('Si aplica seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Detalle de la actividad realizada: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
+            pdf.multi_cell(0, 8, f"Evidencia fotográfica:")
+            insertar_imagen_desde_url(pdf, campo('Evidencia fotográfica'))
+            pdf.multi_cell(0, 8, f"Anexos a documentos generados para la realización de las actividades: {campo('Anexos')}")
+    
     return pdf
 
 
