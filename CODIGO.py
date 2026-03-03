@@ -4,6 +4,8 @@ from fpdf import FPDF
 import io
 from PIL import Image
 import os
+import requests
+from tempfile import NamedTemporaryFile
 
 # === CONFIGURACIÓN DEL PDF ===
 class PDF(FPDF):
@@ -37,6 +39,40 @@ def cargar_personas():
     sheet_id_personas = "1oQ6I-GV56ubn4MLlrRGC91tFCR7YE2uyHdOm5Rc4lFE"
     url_personas = f"https://docs.google.com/spreadsheets/d/{sheet_id_personas}/export?format=csv"
     return pd.read_csv(url_personas)
+
+# Insertar imagen
+def insertar_imagen_desde_url(pdf, url, ancho=100):
+    try:
+        if pd.isna(url) or str(url).strip() == "":
+            return
+
+        # Si vienen varios enlaces separados por coma
+        enlaces = str(url).split(",")
+
+        for enlace in enlaces:
+            enlace = enlace.strip()
+
+            if "drive.google.com" in enlace:
+                # Convertir link de Drive a descarga directa
+                file_id = enlace.split("/d/")[1].split("/")[0]
+                enlace = f"https://drive.google.com/uc?export=download&id={file_id}"
+
+            response = requests.get(enlace)
+
+            if response.status_code == 200:
+                with NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
+                    tmp.write(response.content)
+                    tmp_path = tmp.name
+
+                pdf.ln(5)
+                pdf.image(tmp_path, w=ancho)
+                pdf.ln(5)
+
+                os.remove(tmp_path)
+
+    except Exception as e:
+        pdf.multi_cell(0, 8, "⚠️ No se pudo cargar la imagen.")
+
 
 
 # === FUNCIÓN PARA CREAR EL PDF ===
@@ -114,7 +150,9 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Población beneficiaria: {campo('Indique la población beneficiaria de la sesión (los que reciben el apoyo)')}")
             pdf.multi_cell(0, 8, f"Tipo de apoyo: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
             pdf.multi_cell(0, 8, f"Descripción: {campo('Descripción de la actividad')}")
-            pdf.multi_cell(0, 8, f"Fotos: {campo('Favor incluir 1 fotografías de las actividades realizadas ')}")
+            pdf.multi_cell(0, 8, "Registro fotográfico:")
+            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas '))
+            
 
             contacto = campo("Indique el contacto de la empresa")
             pdf.multi_cell(0, 8, f"Contacto: {contacto}")
@@ -124,17 +162,22 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
                 pdf.multi_cell(0, 8, f"Correo: {campo('Indique el correo electrónico de la empresa')}")
 
         elif tipo_norm == "apoyo logístico":
-            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
-            pdf.multi_cell(0, 8, f"Detalle: {campo('Indique de manera detallada la actividad de apoyo logístico brindado')}")
-            pdf.multi_cell(0, 8, f"Fotos: {campo('Adjunte 2 fotografías como registro fotográfico')}")
-            pdf.multi_cell(0, 8, f"Documentos: {campo('Coloque la referencia a todos los documentos generados.')}")
+            pdf.multi_cell(0, 8, f"Empresa para la cual se realiza la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Detalle de la actividad de apoyo logístico: {campo('Indique de manera detallada la actividad de apoyo logístico brindado')}")
+            pdf.multi_cell(0, 8, "Registro fotográfico:")
+            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
+            pdf.multi_cell(0, 8, f"Referencia de documentos generados: {campo('Coloque la referencia a todos los documentos generados.')}")
 
         elif tipo_norm == "giras":
             provincia = campo("Seleccione la provincia del lugar donde se realizó la gira")
-            pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
-            pdf.multi_cell(0, 8, f"Provincia: {provincia}")
-            pdf.multi_cell(0, 8, f"Objetivo: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
+            pdf.multi_cell(0, 8, f"Empresa para la cual se realiza la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
+            pdf.multi_cell(0, 8, f"Provincia donde se realizó la gira: {provincia}")
+            pdf.multi_cell(0, 8, f"Objetivo de la gira: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
+            pdf.multi_cell(0, 8, "Registro fotográfico:")
+            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
 
+
+        
         elif tipo_norm == "revisión bibliográfica":
             pdf.multi_cell(0, 8, f"Tema: {campo('Indique el tema a investigar a través de la revisión bibliográfica')}")
             pdf.multi_cell(0, 8, f"Aportes: {campo('Indique aspectos relevantes encontrados en el documento, y que representen un aporte sustancioso para el proyecto y el trabajo en el laboratorio.')}")
@@ -146,7 +189,16 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
         elif tipo_norm == "sesiones de trabajo con equipo inifar":
             pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
             pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
+            pdf.multi_cell(0, 8, f"Modalidad de la reunión: {campo('Seleccione la modalidad de la reunión')}")
+            pdf.multi_cell(0, 8, f"Lugar o plataforma: {campo('Indique el lugar o plataforma por la cuál se desarrolló la reunión')}")
+            pdf.multi_cell(0, 8, f"Estudiantes participantes: {campo('Indique el nombre  de los estudiantes participantes')}") 
+            pdf.multi_cell(0, 8, f"Personas del INIFAR que participan: {campo('Indique los nombres de las personas del INIFAR que participan de la reunión')}")
+            pdf.multi_cell(0, 8, f"Descripción de la actividad: {campo('Descripción de la actividad')}")
+            pdf.multi_cell(0, 8, "Registro fotográfico:")
+            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas'))
 
+
+        
         elif tipo_norm == "otras actividades":
             pdf.multi_cell(0, 8, f"Detalle: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
 
