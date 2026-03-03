@@ -192,7 +192,16 @@ if "nombre_sel" not in st.session_state:
     st.session_state.nombre_sel = None
 
 # Selección de nombre
-opciones_nombres = sorted(df["nombre"].dropna().unique())
+proyectos = [
+    "ARPYMES",
+    "BIOEQUIVALENCIA",
+    "LAFITEC",
+    "Análisis de estado sólido",
+    "Formulación de productos"
+]
+
+opciones_nombres = proyectos + sorted(df["nombre"].dropna().unique())
+
 nombre_sel = st.selectbox("Selecciona un asistente:", opciones_nombres)
 
 # Input de contraseña
@@ -221,21 +230,30 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
     actividad_sel = st.selectbox("Selecciona una actividad:", opciones_actividades)
 
     if st.button("Generar PDF"):
-        if nombre_sel.strip().lower() == "arpymes" and actividad_sel.strip().lower() == "sesión de trabajo con empresa":
+        
+        nombre_norm = nombre_sel.strip().lower()
+        actividad_norm_sel = actividad_sel.strip().lower()
+
+        # Si se selecciona un PROYECTO → hacer compilado
+        if nombre_norm in [p.lower() for p in proyectos]:
             registros = df_respuestas[
-                (df_respuestas["actividad_norm"] == actividad_sel.strip().lower()) &
-                (df_respuestas["proyecto_norm"] == "arpymes")
-            ]
+                (df_respuestas["proyecto_norm"] == nombre_norm) &
+                (df_respuestas["actividad_norm"] == actividad_norm_sel)
+            ].copy()
 
             registros = registros.sort_values(by=["Nombre del asistente"])
 
-            titulo_pdf = "Compilado ARPYMES - Sesión de trabajo con empresa"
-            nombre_archivo = "compilado_arpymes_sesion_empresa.pdf"
+            titulo_pdf = f"Compilado {nombre_sel} - {actividad_sel}"
+            nombre_archivo = f"compilado_{nombre_sel}_{actividad_sel}.pdf"
+
+            # Si se selecciona un asistente → reporte individual
         else:
+
             registros = df_respuestas[
                 (df_respuestas["Nombre del asistente"] == nombre_sel) &
-                (df_respuestas["Seleccione el tipo de actividad que realizó"].str.strip().str.lower() == actividad_sel.strip().lower())
-            ]
+                (df_respuestas["actividad_norm"] == actividad_norm_sel)
+            ].copy()
+
             titulo_pdf = f"Registro de {actividad_sel.title()}"
             nombre_archivo = f"reporte_{nombre_sel.replace(' ', '_')}.pdf"
             
