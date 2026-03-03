@@ -139,9 +139,9 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
         def campo(nombre): return row.get(nombre, "")
 
         if tipo_norm == "sesión de trabajo con empresa":
-            pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
-            pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión')}")
-            pdf.multi_cell(0, 8, f"Modalidad: {campo('Seleccione la modalidad de la reunión')}")
+            pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión ')}")
+            pdf.multi_cell(0, 8, f"Horario: {campo('Indique el horario en el que realizó la reunión ')}")
+            pdf.multi_cell(0, 8, f"Modalidad: {campo('Seleccione la modalidad de la reunión ')}")
             pdf.multi_cell(0, 8, f"Lugar: {campo('Indique el lugar o plataforma por la cuál se desarrolló la reunión')}")
             pdf.multi_cell(0, 8, f"Empresa: {campo('Seleccione el nombre de la empresa para la cual realizó la actividad')}")
             pdf.multi_cell(0, 8, f"Provincia: {campo('Seleccione la provincia donde se ubica la empresa')}")
