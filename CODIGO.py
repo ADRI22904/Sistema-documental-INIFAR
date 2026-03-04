@@ -129,8 +129,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
         elif tipo_norm == "apoyo logístico":
             pdf.multi_cell(0, 10, f"Empresa para la cual se realiza la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 10, f"Detalle de la actividad de apoyo logístico: {campo('Indique de manera detallada la actividad de apoyo logístico brindado')}")
-            pdf.multi_cell(0, 10, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico del apoyo logístico'))
+            pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Adjunte 2 fotografías como registro fotográfico del apoyo logístico')}")
             pdf.multi_cell(0, 10, f"Referencia de documentos generados: {campo('Coloque la referencia a todos los documentos generados.')}")
 
         elif tipo_norm == "giras":
@@ -184,8 +183,8 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             # 🔹 Estos siempre se muestran sin importar provincia
             
             pdf.multi_cell(0, 10, f"Objetivo de la gira: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
-            pdf.multi_cell(0, 10, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico de la gira o visita'))
+            pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Adjunte 2 fotografías como registro fotográfico de la gira o visita')}")
+            
 
 
         elif tipo_norm == "revisión bibliográfica":
@@ -211,28 +210,25 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
 
                 pdf.multi_cell(0, 10, f"Formulación detallada: {campo('Describa detalladamente el tipo de formulación de las pruebas fisicoquímicas con extracto detallada y la cantidad de formulaciones')}")
                 pdf.multi_cell(0, 10, f"Resumen de resultados: {campo('Agregar un resumen de los resultados obtenidos de las pruebas fisicoquímicas  (incluya resultados relevantes o poco esperados)')}")
-
-                pdf.multi_cell(0, 10, "Registro fotográfico:")
-                insertar_imagen_desde_url(pdf, campo('Registro fotográfico de pruebas fisicoquímicas'))
+                pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Registro fotográfico de pruebas fisicoquímicas')}")
+                
 
             # 🌿 PRUEBAS FITOQUÍMICAS
             elif tipo_prueba_norm == "pruebas fitoquímicas" or tipo_prueba_norm == "pruebas fitoquimicas":
 
                 pdf.multi_cell(0, 10, f"Formulación detallada: {campo('Describa detalladamente el tipo de formulación de las pruebas fitoquímicas con extracto detallada y la cantidad de formulaciones')}")
                 pdf.multi_cell(0, 10, f"Resumen de resultados: {campo('Agregar un resumen de los resultados obtenidos de las pruebas fitoquímicas (incluya resultados relevantes o poco esperados)')}")
-
-                pdf.multi_cell(0, 10, "Registro fotográfico:")
-                insertar_imagen_desde_url(pdf, campo('Registro fotográfico de pruebas fitoquímicas'))
+                pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Registro fotográfico de pruebas fitoquímicas')}")
+                
 
             # 🧪 OTRAS PRUEBAS
             else:
 
                 pdf.multi_cell(0, 10, f"Formulación detallada: {campo('Describa detalladamente el tipo de formulación con extracto detallada y la cantidad de formulaciones')}")
                 pdf.multi_cell(0, 10, f"Resumen de resultados: {campo('Agregar un resumen de los resultados obtenidos (incluya resultados relevantes o poco esperados)')}")
-
-                pdf.multi_cell(0, 10, "Registro fotográfico:")
-                insertar_imagen_desde_url(pdf, campo('Registro fotográfico de otras pruebas'))
-
+                pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Registro fotográfico de otras pruebas')}")
+                
+            
         
         elif tipo_norm == "sesiones de trabajo con equipo inifar":
             pdf.multi_cell(0, 10, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
@@ -242,8 +238,8 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 10, f"Estudiantes participantes: {campo('Indique el nombre  de los estudiantes participantes')}") 
             pdf.multi_cell(0, 10, f"Personas del INIFAR que participan: {campo('Indique los nombres de las personas del INIFAR que participan de la reunión')}")
             pdf.multi_cell(0, 10, f"Descripción de la actividad: {campo('Descripción de la actividad')}")
-            pdf.multi_cell(0, 10, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con el equipo INIFAR'))
+            pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con el equipo INIFAR')}")
+            
 
 
         
@@ -251,7 +247,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 10, f"Empresa para la cual se realizó la actividad: {campo('Si aplica seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 10, f"Detalle de la actividad realizada: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
             pdf.multi_cell(0, 10, f"Evidencia fotográfica:")
-            insertar_imagen_desde_url(pdf, campo('Evidencia fotográfica de la actividad'))
+            pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Evidencia fotográfica de la actividad')}")
             pdf.multi_cell(0, 10, f"Anexos a documentos generados para la realización de las actividades: {campo('Anexos')}")
     
     return pdf
