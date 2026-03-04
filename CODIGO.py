@@ -40,40 +40,6 @@ def cargar_personas():
     url_personas = f"https://docs.google.com/spreadsheets/d/{sheet_id_personas}/export?format=csv"
     return pd.read_csv(url_personas)
 
-# Insertar imagen
-def insertar_imagen_desde_url(pdf, url, ancho=100):
-    try:
-        if pd.isna(url) or str(url).strip() == "":
-            return
-
-        # Si vienen varios enlaces separados por coma
-        enlaces = str(url).split(",")
-
-        for enlace in enlaces:
-            enlace = enlace.strip()
-
-            if "drive.google.com" in enlace:
-                # Convertir link de Drive a descarga directa
-                file_id = enlace.split("/d/")[1].split("/")[0]
-                enlace = f"https://drive.google.com/uc?export=download&id={file_id}"
-
-            response = requests.get(enlace)
-
-            if response.status_code == 200:
-                with NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
-                    tmp.write(response.content)
-                    tmp_path = tmp.name
-
-                pdf.ln(5)
-                pdf.image(tmp_path, w=ancho)
-                pdf.ln(5)
-
-                os.remove(tmp_path)
-
-    except Exception as e:
-        pdf.multi_cell(0, 8, "No se pudo cargar la imagen.")
-
-
 
 # === FUNCIÓN PARA CREAR EL PDF ===
 def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
@@ -116,18 +82,18 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
         pdf.ln(3)
 
         pdf.set_font("Arial", '', 12)
-        pdf.cell(180, 10, f"Horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
-        pdf.cell(180, 10, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
+        pdf.cell(180, 8, f"Horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
+        pdf.cell(180, 8, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
 
         proyecto_unidad = row.get("Indique el proyecto o unidad para el cuál realizó la tarea.", "")
-        pdf.cell(180, 10, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
+        pdf.cell(180, 8, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
         proyecto_norm = str(proyecto_unidad).strip().lower()
 
         if proyecto_norm == "arpymes":
             respuesta_empresa = row.get("¿La empresa es propia de ARPYMES o externa?", "")
-            pdf.cell(180, 10, f"Empresa ARPYMES o externa: {respuesta_empresa}", ln=True)
+            pdf.cell(180, 8, f"Empresa ARPYMES o externa: {respuesta_empresa}", ln=True)
             if str(respuesta_empresa).strip().lower() == "externa":
-                pdf.cell(180, 10, f"Empresa: {row.get('En caso de ser externa coloque el nombre de la empresa', '')}", ln=True)
+                pdf.cell(180, 8, f"Empresa: {row.get('En caso de ser externa coloque el nombre de la empresa', '')}", ln=True)
         else:
             respuesta_inifar_empresa = row.get("¿La actividad es propia del INIFAR o para algún tipo de empresa?", "")
             pdf.cell(180, 10, f"Actividad INIFAR o empresa: {respuesta_inifar_empresa}", ln=True)
