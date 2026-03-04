@@ -150,8 +150,8 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Población beneficiaria: {campo('Indique la población beneficiaria de la sesión (los que reciben el apoyo)')}")
             pdf.multi_cell(0, 8, f"Tipo de apoyo soliictado por la empresa: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
             pdf.multi_cell(0, 8, f"Descripción de la actividad: {campo('Descripción de la actividad')}")
-            pdf.multi_cell(0, 8, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con empresa'))
+            #pdf.multi_cell(0, 8, "Registro fotográfico:")
+            #insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con empresa'))
             
 
             contacto = campo("Indique el contacto de la empresa")
