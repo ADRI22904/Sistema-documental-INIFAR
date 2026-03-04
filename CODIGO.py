@@ -83,7 +83,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
 
         pdf.set_font("Arial", '', 12)
         pdf.cell(0, 10, f"Horas realizadas: {row.get('Indique la cantidad de horas realizadas', '')}", ln=True)
-        pdf.cell(1, 10, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
+        pdf.cell(0, 10, f"Fecha: {row.get('Seleccione la fecha en la que se realiza la actividad', '')}", ln=True)
 
         proyecto_unidad = row.get("Indique el proyecto o unidad para el cuál realizó la tarea.", "")
         pdf.cell(0, 10, f"Proyecto o unidad: {proyecto_unidad}", ln=True)
@@ -362,10 +362,9 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
             st.warning("⚠️ Este estudiante o proyecto no tiene respuestas asociadas a esta actividad aún.")
         else:
             pdf = generar_pdf_respuesta(registros, titulo_pdf, actividad_sel)
-            buffer = io.BytesIO()
-            pdf.output(buffer)
-            buffer.seek(0)
-
+            pdf_bytes = pdf.output(dest='S').encode('latin1') 
+            buffer = io.BytesIO(pdf_bytes)
+            
             st.download_button(
                 label="📥 Descargar PDF",
                 data=buffer,
