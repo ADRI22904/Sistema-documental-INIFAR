@@ -151,7 +151,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Tipo de apoyo soliictado por la empresa: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
             pdf.multi_cell(0, 8, f"Descripción de la actividad: {campo('Descripción de la actividad')}")
             pdf.multi_cell(0, 8, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas '))
+            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con empresa'))
             
 
             contacto = campo("Indique el contacto de la empresa")
@@ -165,7 +165,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Empresa para la cual se realiza la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 8, f"Detalle de la actividad de apoyo logístico: {campo('Indique de manera detallada la actividad de apoyo logístico brindado')}")
             pdf.multi_cell(0, 8, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
+            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico del apoyo logístico'))
             pdf.multi_cell(0, 8, f"Referencia de documentos generados: {campo('Coloque la referencia a todos los documentos generados.')}")
 
         elif tipo_norm == "giras":
@@ -220,7 +220,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             
             pdf.multi_cell(0, 8, f"Objetivo de la gira: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
             pdf.multi_cell(0, 8, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
+            insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico de la gira o visita'))
 
 
         elif tipo_norm == "revisión bibliográfica":
@@ -278,7 +278,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Personas del INIFAR que participan: {campo('Indique los nombres de las personas del INIFAR que participan de la reunión')}")
             pdf.multi_cell(0, 8, f"Descripción de la actividad: {campo('Descripción de la actividad')}")
             pdf.multi_cell(0, 8, "Registro fotográfico:")
-            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas'))
+            insertar_imagen_desde_url(pdf, campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con el equipo INIFAR'))
 
 
         
@@ -286,7 +286,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Empresa para la cual se realizó la actividad: {campo('Si aplica seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 8, f"Detalle de la actividad realizada: {campo('Describir, de manera detallada, la actividad realizada para el proyecto.')}")
             pdf.multi_cell(0, 8, f"Evidencia fotográfica:")
-            insertar_imagen_desde_url(pdf, campo('Evidencia fotográfica'))
+            insertar_imagen_desde_url(pdf, campo('Evidencia fotográfica de la actividad'))
             pdf.multi_cell(0, 8, f"Anexos a documentos generados para la realización de las actividades: {campo('Anexos')}")
     
     return pdf
