@@ -109,7 +109,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 10, f"Horario de la reunión: {campo('Indique el horario en el que realizó la reunión con la empresa')}")
             pdf.multi_cell(0, 10, f"Modalidad de la reunión: {campo('Seleccione la modalidad de la reunión')}")
             pdf.multi_cell(0, 10, f"Lugar o plataforma donde se desarrolló: {campo('Indique el lugar o plataforma por la cuál se desarrolló la reunión')}")
-            pdf.multi_cell(0, 10, f"Empresa para la cual se realizó la actividad: {campo('Seleccione el nombre de la empresa para la cual realizó la actividad')}")
+            pdf.multi_cell(0, 10, f"Empresa para la cual se realizó la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 10, f"Provincia donde se ubica la empresa: {campo('Seleccione la provincia donde se ubica la empresa')}")
             pdf.multi_cell(0, 10, f"Estudiantes participantes: {campo('Indique el nombre  de los estudiantes participantes')}")
             pdf.multi_cell(0, 10, f"Personas empresa participantes: {campo('Indique el nombre de las personas de la empresa que participan de la reunión')}")
