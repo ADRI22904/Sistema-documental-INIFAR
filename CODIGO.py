@@ -184,7 +184,8 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
 
             elif provincia_norm == "alajuela":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Alajuela')}")
-
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito del lugar donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad del lugar donde se realizó la gira')}")
             elif provincia_norm == "heredia":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Heredia')}")
 
