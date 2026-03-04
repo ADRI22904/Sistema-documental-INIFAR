@@ -170,9 +170,38 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
 
         elif tipo_norm == "giras":
             provincia = campo("Seleccione la provincia del lugar donde se realizó la gira")
+            provincia_norm = str(provincia).strip().lower()
+
             pdf.multi_cell(0, 8, f"Empresa para la cual se realiza la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 8, f"Provincia donde se realizó la gira: {provincia}")
+
+            # 🔹 Mostrar cantón según provincia
+            if provincia_norm == "san josé" or provincia_norm == "san jose":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de San José')}")
+
+            elif provincia_norm == "cartago":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Cartago')}")
+
+            elif provincia_norm == "alajuela":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Alajuela')}")
+
+            elif provincia_norm == "heredia":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Heredia')}")
+
+            elif provincia_norm == "guanacaste":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Guanacaste')}")
+
+            elif provincia_norm == "puntarenas":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Puntarenas')}")
+
+            elif provincia_norm == "limón" or provincia_norm == "limon":
+                pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Limon')}")
+
+            # 🔹 Estos siempre se muestran sin importar provincia
+            pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito del lugar donde se realizó la gira')}")
+            pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad del lugar donde se realizó la gira')}")
             pdf.multi_cell(0, 8, f"Objetivo de la gira: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
+
             pdf.multi_cell(0, 8, "Registro fotográfico:")
             insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
 
