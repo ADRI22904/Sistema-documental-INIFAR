@@ -81,7 +81,7 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
     pdf.set_left_margin(10)
     pdf.set_right_margin(10)
     pdf.add_page()
-    pdf.set_font("Arial", '', 12)
+    pdf.set_font("Arial", size=12)
 
     # 🔹 Datos generales SOLO UNA VEZ
     asistente_actual = None
