@@ -193,17 +193,28 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Alajuela')}")
                 pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Alajuela donde se realizó la gira')}")
                 pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Alajuela donde se realizó la gira')}")
+            
             elif provincia_norm == "heredia":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Heredia')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Heredia donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Heredia donde se realizó la gira')}")
 
             elif provincia_norm == "guanacaste":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Guanacaste')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Guanacaste donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Guanacaste donde se realizó la gira')}")
 
+            
             elif provincia_norm == "puntarenas":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Puntarenas')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Puntarenas donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Puntarenas donde se realizó la gira')}")
 
+            
             elif provincia_norm == "limón" or provincia_norm == "limon":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Limon')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Limón donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Limón donde se realizó la gira')}")
 
             # 🔹 Estos siempre se muestran sin importar provincia
             
