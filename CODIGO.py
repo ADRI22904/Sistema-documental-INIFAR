@@ -235,8 +235,39 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 8, f"Número de prubas por tipo de apoyo: {campo('Indique el número de pruebas por tipo de apoyo')}")
             pdf.multi_cell(0, 8, f"Estatus de la actividad: {campo('Indique el estatus de la actividad realizada')}")
             pdf.multi_cell(0, 8, f"Enlace del esquema general del proyecto: {campo('Adjuntar el enlace del documento del drive del esquema general del proyecto donde se detallen los pasos generales del ensayo o prueba a realizar.')}")
-            pdf.multi_cell(0, 8, f"Tipo de prueba realizada: {campo('Seleccione el tipo de prueba realizada')}")
             
+            tipo_prueba = campo('Seleccione el tipo de prueba realizada')
+            tipo_prueba_norm = str(tipo_prueba).strip().lower()
+
+            pdf.multi_cell(0, 8, f"Tipo de prueba realizada: {tipo_prueba}")
+
+            # 🔬 PRUEBAS FISICOQUÍMICAS
+            if tipo_prueba_norm == "pruebas fisicoquímicas" or tipo_prueba_norm == "pruebas fisicoquimicas":
+
+                pdf.multi_cell(0, 8, f"Formulación detallada: {campo('Describa detalladamente el tipo de formulación de las pruebas fisicoquímicas con extracto detallada y la cantidad de formulaciones')}")
+                pdf.multi_cell(0, 8, f"Resumen de resultados: {campo('Agregar un resumen de los resultados obtenidos de las pruebas fisicoquímicas  (incluya resultados relevantes o poco esperados)')}")
+
+                pdf.multi_cell(0, 8, "Registro fotográfico:")
+                insertar_imagen_desde_url(pdf, campo('Registro fotográfico de pruebas fisicoquímicas'))
+
+            # 🌿 PRUEBAS FITOQUÍMICAS
+            elif tipo_prueba_norm == "pruebas fitoquímicas" or tipo_prueba_norm == "pruebas fitoquimicas":
+
+                pdf.multi_cell(0, 8, f"Formulación detallada: {campo('Describa detalladamente el tipo de formulación de las pruebas fitoquímicas con extracto detallada y la cantidad de formulaciones')}")
+                pdf.multi_cell(0, 8, f"Resumen de resultados: {campo('Agregar un resumen de los resultados obtenidos de las pruebas fitoquímicas (incluya resultados relevantes o poco esperados)')}")
+
+                pdf.multi_cell(0, 8, "Registro fotográfico:")
+                insertar_imagen_desde_url(pdf, campo('Registro fotográfico de pruebas fitoquímicas'))
+
+            # 🧪 OTRAS PRUEBAS
+            else:
+
+                pdf.multi_cell(0, 8, f"Formulación detallada: {campo('Describa detalladamente el tipo de formulación con extracto detallada y la cantidad de formulaciones')}")
+                pdf.multi_cell(0, 8, f"Resumen de resultados: {campo('Agregar un resumen de los resultados obtenidos (incluya resultados relevantes o poco esperados)')}")
+
+                pdf.multi_cell(0, 8, "Registro fotográfico:")
+                insertar_imagen_desde_url(pdf, campo('Registro fotográfico de otras pruebas'))
+
         
         elif tipo_norm == "sesiones de trabajo con equipo inifar":
             pdf.multi_cell(0, 8, f"Docentes: {campo('Seleccione el o los nombres de los docentes responsables de la reunión')}")
