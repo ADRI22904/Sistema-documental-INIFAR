@@ -112,9 +112,9 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             pdf.multi_cell(0, 10, f"Empresa para la cual se realizó la actividad: {campo('Seleccione el nombre de la empresa para la cual se realizó la actividad')}")
             pdf.multi_cell(0, 10, f"Provincia donde se ubica la empresa: {campo('Seleccione la provincia donde se ubica la empresa')}")
             pdf.multi_cell(0, 10, f"Estudiantes participantes: {campo('Indique el nombre  de los estudiantes participantes')}")
-            pdf.multi_cell(0, 10, f"Personas empresa participantes: {campo('Indique el nombre de las personas de la empresa que participan de la reunión')}")
+            pdf.multi_cell(0, 10, f"Personas de la empresa participantes: {campo('Indique el nombre de las personas de la empresa que participan de la reunión')}")
             pdf.multi_cell(0, 10, f"Población beneficiaria: {campo('Indique la población beneficiaria de la sesión (los que reciben el apoyo)')}")
-            pdf.multi_cell(0, 10, f"Tipo de apoyo soliictado por la empresa: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
+            pdf.multi_cell(0, 10, f"Tipo de apoyo solicitado por la empresa: {campo('Seleccione el(los) tipo(s) de apoyo(s) solicitado(s) por la empresa')}")
             pdf.multi_cell(0, 10, f"Descripción de la actividad: {campo('Descripción de la actividad')}")
             pdf.multi_cell(0, 10, f"Registro fotográfico: {campo('Favor incluir 1 fotografías de las actividades realizadas en la sesión de trabajo con empresa')}")
             
