@@ -71,7 +71,7 @@ def insertar_imagen_desde_url(pdf, url, ancho=100):
                 os.remove(tmp_path)
 
     except Exception as e:
-        pdf.multi_cell(0, 8, "⚠️ No se pudo cargar la imagen.")
+        pdf.multi_cell(0, 8, "No se pudo cargar la imagen.")
 
 
 
