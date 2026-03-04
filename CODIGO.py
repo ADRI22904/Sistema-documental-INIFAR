@@ -295,7 +295,7 @@ if "nombre_sel" not in st.session_state:
 
 opciones_nombres = sorted(df["nombre"].dropna().unique())
 
-nombre_sel = st.selectbox("Selecciona un asistente:", opciones_nombres)
+nombre_sel = st.selectbox("Selecciona un asistente, unidad o proyecto:", opciones_nombres)
 
 # Input de contraseña
 password_input = st.text_input("Ingrese su contraseña:", type="password")
