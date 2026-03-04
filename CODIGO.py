@@ -401,8 +401,8 @@ if st.session_state.autenticado and st.session_state.nombre_sel == nombre_sel:
             st.warning("⚠️ Este estudiante o proyecto no tiene respuestas asociadas a esta actividad aún.")
         else:
             pdf = generar_pdf_respuesta(registros, titulo_pdf, actividad_sel)
-            pdf_bytes = pdf.output(dest='S').encode('latin1')
-            buffer = io.BytesIO(pdf_bytes)
+            pdf_output = pdf.output(dest='S')
+            buffer = io.BytesIO(pdf_output.encode('latin-1', 'replace'))
 
             st.download_button(
                 label="📥 Descargar PDF",
