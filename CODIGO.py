@@ -178,14 +178,21 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
             # 🔹 Mostrar cantón según provincia
             if provincia_norm == "san josé" or provincia_norm == "san jose":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de San José')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de San José donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de San José donde se realizó la gira')}")
 
+            
             elif provincia_norm == "cartago":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Cartago')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Cartago donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Cartago donde se realizó la gira')}")
+
+            
 
             elif provincia_norm == "alajuela":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Alajuela')}")
-                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito del lugar donde se realizó la gira')}")
-                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad del lugar donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito de Alajuela donde se realizó la gira')}")
+                pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad de Alajuela donde se realizó la gira')}")
             elif provincia_norm == "heredia":
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Heredia')}")
 
@@ -199,10 +206,8 @@ def generar_pdf_respuesta(registros, titulo_pdf, tipo_actividad):
                 pdf.multi_cell(0, 8, f"Cantón: {campo('Cantones de Limon')}")
 
             # 🔹 Estos siempre se muestran sin importar provincia
-            pdf.multi_cell(0, 8, f"Distrito: {campo('Indique el distrito del lugar donde se realizó la gira')}")
-            pdf.multi_cell(0, 8, f"Barrio o comunidad: {campo('Indique el barrio o comunidad del lugar donde se realizó la gira')}")
+            
             pdf.multi_cell(0, 8, f"Objetivo de la gira: {campo('Describa el objetivo de la gira o visita y las actividades realizadas en la misma.')}")
-
             pdf.multi_cell(0, 8, "Registro fotográfico:")
             insertar_imagen_desde_url(pdf, campo('Adjunte 2 fotografías como registro fotográfico'))
 
